@@ -11,24 +11,28 @@ function Box(props) {
   const [active, setActive] = useState(false);
 
   // Rotate mesh every frame, this is outside of React without overhead
-  useFrame(() => {
-    if (mesh && mesh.current) {
-      mesh.current.rotation.x = mesh.current.rotation.y += 0.01;
-    }
-  });
+  // useFrame(() => {
+  //   if (mesh && mesh.current) {
+  //     mesh.current.rotation.x = mesh.current.rotation.y += 0.01;
+  //   }
+  // });
+
+  useFrame((state, delta) => (mesh.current.rotation.x += 0.01))
 
   return (
     <mesh
       {...props}
       ref={mesh}
-      scale={active ? [1.5, 1.5, 1.5] : [1, 1, 1]}
+      // scale={active ? [1.5, 1.5, 1.5] : [1, 1, 1]}
+      scale={active ? 1.5 : 1}
       onClick={(e) => setActive(!active)}
       onPointerOver={(e) => setHover(true)}
       onPointerOut={(e) => setHover(false)}
     >
-      <boxBufferGeometry attach="geometry" args={[1, 1, 1]} />
+      {/* <boxGeometry attach="geometry" args={[1, 1, 1]} /> */}
+      <boxGeometry args={[1, 1, 1]} />
       <meshStandardMaterial
-        attach="material"
+        // attach="material"
         color={hovered ? "hotpink" : "orange"}
       />
     </mesh>
@@ -37,20 +41,20 @@ function Box(props) {
 
 export default function App() {
   return (
-    <View style={styles.container}>
+    // <View style={styles.container}>
       <Canvas>
         <ambientLight />
         <pointLight position={[10, 10, 10]} />
         <Box position={[-1.2, 0, 0]} />
         <Box position={[1.2, 0, 0]} />
       </Canvas>
-    </View>
+    // </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     backgroundColor: "black",
   },
 });
